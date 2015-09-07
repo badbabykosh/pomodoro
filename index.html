@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>2mato Timer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="js/lib/front_face/sessionTimer.js"></script>
+
+</head>
+<body>
+<!--TODO - step 1 press start...25min countdown-->
+<div class="container-fluid">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 text-center">
+    <h1>Pomodoro</h1>
+    <div id="break_length" class="col-md-6 pull-left">Break Length<br/><span id="break"></span></div>
+    <div id="session_length" class="col-md-6 pull-right">Session Length<br/><span id="session"></span></div>
+    <div>Session <br/><span id="timer"></span></div>
+    <button id="reset_all">stop session</button>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+</body>
+<script>
+  //TODO js logic here
+  // on document ready
+  // onClick -- start session...when it ends start break
+  // onBreak run until end then run session
+  $(document).ready(function(){
+    var aTimer = new SessionTimer(25,5);
+    aTimer.start();
+    // toggle the click sound
+    $("#reset_all").click(function(){
+      aTimer.stopAll();
+    });
+  });
+
+</script>
+</html>
