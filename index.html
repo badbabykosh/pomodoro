@@ -20,11 +20,12 @@
 <div class="container-fluid">
   <div class="col-md-4"></div>
   <div class="col-md-4 text-center">
-    <h1>Pomodoro</h1>
-    <div id="break_length" class="col-md-6 pull-left">Break Length<br/><span id="break"></span></div>
-    <div id="session_length" class="col-md-6 pull-right">Session Length<br/><span id="session"></span></div>
+    <h1>Fonsodoro</h1>
+    <div id="break_length" class="col-md-6 pull-left">Break Length<br/><span id="break">5</span></div>
+    <div id="session_length" class="col-md-6 pull-right">Session Length<br/><span id="session">25</span></div>
     <div>Session <br/><span id="timer"></span></div>
     <button id="stop_all">stop</button>
+    <!--todo onclick change text 'start' == 'reset'-->
     <button id="start_over">start</button>
   </div>
   <div class="col-md-4"></div>
@@ -36,13 +37,15 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function(){
-    var aTimer = new SessionTimer(25,5);
-//    aTimer.start();
+    var aTimer = new SessionTimer(document.getElementById("session").innerHTML,document.getElementById("break").innerHTML);
+    document.getElementById("timer").innerHTML = document.getElementById("session").innerHTML;
+
     // toggle the click sound
     $("#stop_all").click(function(){
       aTimer.stopAll();
     });
     $("#start_over").click(function(){
+      aTimer.stopAll();
       aTimer.start();
     });
   });
