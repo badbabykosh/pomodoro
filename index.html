@@ -64,6 +64,9 @@
     var width   = 200,
         height  = 200,
         tau     = 2 * Math.PI; //http://tauday.com/tau-manifesto
+    var fill = d3.scale.linear()
+        .range(["hsl(-180, 50%, 50%)", "hsl(180, 50%, 50%)"]);
+
     var arc = d3.svg.arc()
         .innerRadius(70)
         .outerRadius(100)
@@ -81,7 +84,8 @@
     // Add the foreground arc in orange, currently showing 12.7%.
     var foreground = svg.append("path")
         .datum({endAngle: tau})
-        .style("fill", "orange")
+    //  .style("fill", "red")
+        .attr("fill", function(d){ return fill(d)})
         .attr("d", arc);
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
@@ -100,6 +104,7 @@
         }
       });
     }
+
   });
 </script>
 </body>
