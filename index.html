@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>2mato Timer</title>
+  <title>FONSODORO</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
   <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
   <!-- Latest compiled and minified CSS -->
@@ -21,8 +21,16 @@
   <div class="col-md-4"></div>
   <div class="col-md-4 text-center">
     <h1>Fonsodoro</h1>
-    <div id="break_length" class="col-md-6 pull-left">Break Length<br/><span id="break">5</span></div>
-    <div id="session_length" class="col-md-6 pull-right">Session Length<br/><span id="session">25</span></div>
+    <div id="break_length" class="col-md-6 pull-left">Break Length<br/>
+      <button class="dec" onclick="decrease('break')">-</button>
+        <input id="break" type="text" value="5" />
+      <button class="inc" onclick="increase('break')">+</button>
+    </div>
+    <div id="session_length" class="col-md-6 pull-right">Session Length<br/>
+      <button class="dec" onclick="decrease('session')">-</button>
+        <input id="session" type="text" value="25" />
+      <button class="inc" onclick="increase('session')">+</button>
+    </div>
     <div>Session <br/><span id="timer"></span></div>
     <button id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
@@ -37,18 +45,29 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function(){
-    var aTimer = new SessionTimer(document.getElementById("session").innerHTML,document.getElementById("break").innerHTML);
-    document.getElementById("timer").innerHTML = document.getElementById("session").innerHTML;
+    var aTimer = new SessionTimer(document.getElementById("session").value,document.getElementById("break").value);
 
-    // toggle the click sound
+    document.getElementById("timer").innerHTML = document.getElementById("session").value;
+
     $("#stop_all").click(function(){
       aTimer.stopAll();
     });
+
     $("#start_over").click(function(){
       aTimer.stopAll();
       aTimer.start();
     });
+
   });
+
+
+  function increase(valueId){
+    $("#"+valueId+"").val( Number($("#"+valueId+"").val()) + 1 );
+  }
+
+  function decrease(valueId){
+    $("#"+valueId+"").val( Number($("#"+valueId+"").val()) - 1 );
+  }
 
 </script>
 </html>

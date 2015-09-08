@@ -7,6 +7,7 @@ describe("sessionTimer",function() {
     jasmine.clock().install();
     //set up DOM element?
   });
+
   afterEach(function() {
     jasmine.clock().uninstall();
   });
@@ -17,10 +18,20 @@ describe("sessionTimer",function() {
     expect(aTimer.running).toEqual(true);
     expect(aTimer.count).toBeDefined();
   });
+
+  xit("should stopall",function(){
+
+  });
+
+  xit("should ringAlarm",function(){
+
+  });
+
   it("should stop running", function(){
     aTimer.stop();
     expect(aTimer.running).toEqual(false);
   });
+
   describe('count',function(){
     it("should receive value of 25",function(){
       aTimer.count(25);
@@ -49,6 +60,7 @@ describe("sessionTimer",function() {
       //jasmine.clock().uninstall();
     });
   });
+
   describe('mybreak', function(){
     it('should receive value of 5',function(){
       aTimer.mybreak(5);
@@ -74,5 +86,10 @@ describe("sessionTimer",function() {
     });
   });
 
+  describe('pulse', function(){
+    xit('should calculate time diff', function(){
+
+    });
+  });
   
 });

@@ -7,6 +7,15 @@ function SessionTimer(timeLength,breakLength){
 
 }
 
+SessionTimer.prototype.change = function(elementid, value){
+  $("#inc").click(function(){
+    $("#session").val( Number($("#session").val()) + 1 );
+  });
+  $("#dec").click(function(){
+    $("#session").val( Number($("#session").val()) - 1 );
+  });
+};
+
 SessionTimer.prototype.stopAll = function(){
   clearInterval(this.tictoc);
 };

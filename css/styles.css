@@ -2,3 +2,12 @@
   float: none;
   margin: 0 auto;
 }
+input#session{
+  width: 1.5em;
+}
+input#break{
+width: 1.5em;
+}
+span#break{
+  width: 1.5em;
+}
