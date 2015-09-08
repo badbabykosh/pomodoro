@@ -6,7 +6,7 @@ function SessionInit(timeLength,breakLength){
   this.running      = false;
 
 }
-
+//TODO the two functions increase and decrease break SOLID rule, must refactor
 increase = function(elementID){
   console.log(elementID);
   $("#"+elementID+"").val( Number($("#"+elementID+"").val()) + 1 );
@@ -86,6 +86,7 @@ SessionInit.prototype.pulse = function(timevalue,sDate,running){
     }
   } else {
     console.log(diff);
+    //TODO return string as minutes and seconds
     document.getElementById("timer").innerHTML = diff.toLocaleString();
   }
 };
