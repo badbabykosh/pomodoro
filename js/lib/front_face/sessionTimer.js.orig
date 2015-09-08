@@ -86,8 +86,11 @@ SessionInit.prototype.pulse = function(timevalue,sDate,running){
     }
   } else {
     console.log(diff);
+<<<<<<< HEAD
     //TODO return string as minutes and seconds
+=======
     //TODO this next line breaks SOLID via timer
+>>>>>>> dev
     document.getElementById("timer").innerHTML = diff.toLocaleString();
   }
 };

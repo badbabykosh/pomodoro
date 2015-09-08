@@ -11,3 +11,16 @@ width: 1.5em;
 span#break{
   width: 1.5em;
 }
+div#animation_container{
+  position:relative;
+}
+div#timer{
+  left: 50%;
+  top: 57%;
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  position:absolute;
+}
