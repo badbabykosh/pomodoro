@@ -23,12 +23,12 @@
     <h1>Fonsodoro</h1>
     <div id="break_length" class="col-md-6 pull-left">Break Length<br/>
       <button class="dec" onclick="decrease('break')">-</button>
-        <input id="break" type="text" value="5" />
+        <input id="break" type="text"/>
       <button class="inc" onclick="increase('break')">+</button>
     </div>
     <div id="session_length" class="col-md-6 pull-right">Session Length<br/>
       <button class="dec" onclick="decrease('session')">-</button>
-        <input id="session" type="text" value="25" />
+        <input id="session" type="text"/>
       <button class="inc" onclick="increase('session')">+</button>
     </div>
     <div>Session <br/><span id="timer"></span></div>
@@ -45,7 +45,9 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function(){
-    var aTimer = new SessionTimer(document.getElementById("session").value,document.getElementById("break").value);
+    var mysession = document.getElementById("session").value = 25;
+    var mybreak = document.getElementById("break").value = 5;
+    var aTimer = new SessionInit(document.getElementById("session").value,document.getElementById("break").value);
 
     document.getElementById("timer").innerHTML = document.getElementById("session").value;
 
@@ -55,19 +57,10 @@
 
     $("#start_over").click(function(){
       aTimer.stopAll();
-      aTimer.start();
+      aTimer.start(document.getElementById("timer").innerHTML,document.getElementById("break").value);
     });
 
   });
-
-
-  function increase(valueId){
-    $("#"+valueId+"").val( Number($("#"+valueId+"").val()) + 1 );
-  }
-
-  function decrease(valueId){
-    $("#"+valueId+"").val( Number($("#"+valueId+"").val()) - 1 );
-  }
 
 </script>
 </html>

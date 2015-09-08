@@ -3,7 +3,7 @@ describe("sessionTimer",function() {
 
 
   beforeEach(function() {
-    aTimer = new SessionTimer(25,5);
+    aTimer = new SessionInit(25,5);
     jasmine.clock().install();
     //set up DOM element?
   });
