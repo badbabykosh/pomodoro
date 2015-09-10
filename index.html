@@ -32,7 +32,7 @@
       <button class="inc" onclick="increase('session')">+</button>
     </div>
     <div class="col-md-12" id="animation_container">
-      <div id="timer"><span id="minutes"></span><span id="seconds"></span><span id="totalTime"></span></div>
+      <div id="timer"><span id="minutes"></span><span id="seconds"></span></div>
 
     </div>
     <button id="stop_all">stop</button>
@@ -50,12 +50,13 @@
   $(document).ready(function() {
     var mysession = document.getElementById("session").value = 1;
     var mybreak = document.getElementById("break").value = 2;
+//    var tChange = mysession*60;
 //    var fa = document.createElement("SPAN"); fa.setAttribute("id","minutes");
 //    var ping = document.getElementById("timer").appendChild(fa);
-    document.getElementById("totalTime").style.visibility = "hidden";
+
     var aTimer = new SessionInit();
 
-    document.getElementById("minutes").innerHTML = document.getElementById("session").value;
+    var minutes = document.getElementById("minutes").innerHTML = document.getElementById("session").value;
 
     $("#stop_all").click(function () {
       aTimer.stopAll();
@@ -93,10 +94,11 @@
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
     setInterval(function() {
-      var tChange = document.getElementById("totalTime").innerHTML;
+      var tChange = aTimer.totalSecs;
+      console.log('change: '+ tChange);
       var delta = document.getElementById("minutes").innerHTML/document.getElementById("session").value;
       console.log('delta: '+ delta);
-      console.log('change: '+ tChange);
+
       foreground.transition()
           .duration(750)
           .style("fill", d3.rgb("lightseagreen").brighter(delta-2))

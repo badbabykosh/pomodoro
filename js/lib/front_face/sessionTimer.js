@@ -1,12 +1,13 @@
 function SessionInit(){
   this.running  = false;
+  this.totalSecs = '1';
 }
 
 increase = function(elementID){
   console.log(elementID);
   $("#"+elementID+"").val( Number($("#"+elementID+"").val()) + 1 );
   if(elementID == 'session'){
-    document.getElementById("timer").innerHTML = document.getElementById("session").value;
+    document.getElementById("minutes").innerHTML = document.getElementById("session").value;
   }
 };
 
@@ -14,7 +15,7 @@ decrease = function(elementID){
   console.log(elementID);
   $("#"+elementID+"").val( Number($("#"+elementID+"").val()) - 1 );
   if(elementID == 'session'){
-    document.getElementById("timer").innerHTML = document.getElementById("session").value;
+    document.getElementById("minutes").innerHTML = document.getElementById("session").value;
   }
 };
 
@@ -97,7 +98,8 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
     console.log(mins + ":" + secs);
     //TODO this next line breaks SOLID via timer
     var currentTime =":" + secs;
-    document.getElementById("totalTime").innerHTML = diffsecs.toLocaleString();
+    //set global var totalSecs
+    this.totalSecs = diffsecs.toLocaleString();
     document.getElementById("minutes").innerHTML = mins.toLocaleString();
     document.getElementById("seconds").innerHTML = currentTime.toLocaleString();
   }
