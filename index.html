@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>KOSHODORO</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-  <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="js/lib/d3/d3.min.js" charset="utf-8"></script>
+  <script src="js/lib/jquery/jquery-2.1.4.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- Optional theme -->
@@ -31,7 +31,10 @@
         <input id="session" type="text"/>
       <button class="inc" onclick="increase('session')">+</button>
     </div>
-    <div class="col-md-12" id="animation_container"><div id="timer"></div></div>
+    <div class="col-md-12" id="animation_container">
+      <div id="timer"><span id="minutes"></span><span id="seconds"></span><span id="totalTime"></span></div>
+
+    </div>
     <button id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
     <button id="start_over">start</button>
@@ -45,11 +48,14 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function() {
-    var mysession = document.getElementById("session").value = 3;
-    var mybreak = document.getElementById("break").value = 5;
+    var mysession = document.getElementById("session").value = 1;
+    var mybreak = document.getElementById("break").value = 2;
+//    var fa = document.createElement("SPAN"); fa.setAttribute("id","minutes");
+//    var ping = document.getElementById("timer").appendChild(fa);
+    document.getElementById("totalTime").style.visibility = "hidden";
     var aTimer = new SessionInit();
 
-    document.getElementById("timer").innerHTML = document.getElementById("session").value;
+    document.getElementById("minutes").innerHTML = document.getElementById("session").value;
 
     $("#stop_all").click(function () {
       aTimer.stopAll();
@@ -57,7 +63,7 @@
 
     $("#start_over").click(function () {
       aTimer.stopAll();
-      document.getElementById("timer").appendChild(document.createElement("SPAN").setAttribute("id","minutes"));
+
       aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
     });
 
@@ -66,7 +72,7 @@
         height  = 200,
         tau     = 2 * Math.PI; //http://tauday.com/tau-manifesto
     var arc = d3.svg.arc()
-        .innerRadius(70)
+        .innerRadius(80)
         .outerRadius(100)
         .startAngle(0);
     var svg = d3.select('#animation_container').append('svg')
@@ -87,12 +93,14 @@
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
     setInterval(function() {
+      var tChange = document.getElementById("totalTime").innerHTML;
       var delta = document.getElementById("minutes").innerHTML/document.getElementById("session").value;
-//      console.log('delta: '+ delta);
+      console.log('delta: '+ delta);
+      console.log('change: '+ tChange);
       foreground.transition()
           .duration(750)
           .style("fill", d3.rgb("lightseagreen").brighter(delta-2))
-          .call(arcTween, (document.getElementById("minutes").innerHTML/document.getElementById("session").value) * tau);
+          .call(arcTween, (tChange/(document.getElementById("session").value*60)) * tau);
     }, 500);//250 = quarter of second
 
     //todo use .call to run function colorChange

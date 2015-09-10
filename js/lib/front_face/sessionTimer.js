@@ -1,6 +1,5 @@
 function SessionInit(){
-  this.running      = false;
-
+  this.running  = false;
 }
 
 increase = function(elementID){
@@ -40,13 +39,13 @@ SessionInit.prototype.start = function(mysession,mybreak){
   this.count(this.timelength,this.breaklength);
 };
 
-SessionInit.prototype.mybreak = function(breakvalue) {
+SessionInit.prototype.mybreak = function(sessiontime,breakvalue) {
   console.log('inside mybreak breakvalue: ' +breakvalue);
   var startDate2 = new Date();
   //set to false for one cycle
   var running = false;
-  this.breaklength = breakvalue;
-  this.tictoc = setInterval(function(){self.pulse(self.breaklength,startDate2,running)},1000);
+
+  this.tictoc = setInterval(function(){self.pulse(breakvalue,sessiontime,startDate2,running)},1000);
   var self = this;
 };
 
@@ -54,11 +53,12 @@ SessionInit.prototype.count = function(sessiontime,breaktime) {
   console.log('inside count');
   var startDate = new Date();
   var running = true;
-  this.sessionlength = sessiontime;
-  this.breaklength = breaktime;
-  this.tictoc = setInterval(function(){self.pulse(self.sessionlength,self.breaklength,startDate,running)},1000);
+
+  this.tictoc = setInterval(function(){self.pulse(sessiontime,breaktime,startDate,running)},1000);
   var self = this;
 };
+
+
 
 SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running){
   console.log('inside pulse');
@@ -77,7 +77,7 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
   console.log('pulse mins: ' + mins);
   console.log('pulse secs: ' + secs);
 
-  if (mins < 0) {
+  if (mins < 0 && secs < 0) {
     //call audio here
     this.ringAlarm();
 
@@ -85,18 +85,21 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
 
     if (running == true) {
       this.stop(self.tictoc);
-      console.log('self.break ' + self.breaklength);
+      console.log('self.break ' + breakvalue);
       console.log(this.running);
-      this.mybreak(self.breaklength);
+      this.mybreak(sessionvalue,breakvalue);
       this.running = false;
     }else{
       this.stop(self.tictoc);
-      this.count(self.timelength);
+      this.count(breakvalue,sessionvalue);
     }
   } else {
     console.log(mins + ":" + secs);
     //TODO this next line breaks SOLID via timer
-    var currentTime = mins + ":" + secs;
-    document.getElementById("timer").innerHTML = currentTime.toLocaleString();
+    var currentTime =":" + secs;
+    document.getElementById("totalTime").innerHTML = diffsecs.toLocaleString();
+    document.getElementById("minutes").innerHTML = mins.toLocaleString();
+    document.getElementById("seconds").innerHTML = currentTime.toLocaleString();
   }
+
 };
