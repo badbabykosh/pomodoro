@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FONSODORO</title>
+  <title>KOSHODORO</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
   <script src="http://code.jquery.com/jquery-2.1.4.js"></script>
   <!-- Latest compiled and minified CSS -->
@@ -20,7 +20,7 @@
 <div class="container-fluid">
   <div class="col-md-4"></div>
   <div class="col-md-4 text-center">
-    <h1>Fonsodoro</h1>
+    <h1>KoshOdoro</h1>
     <div id="break_length" class="col-md-6 pull-left">Break Length<br/>
       <button class="dec" onclick="decrease('break')">-</button>
         <input id="break" type="text"/>
@@ -31,7 +31,7 @@
         <input id="session" type="text"/>
       <button class="inc" onclick="increase('session')">+</button>
     </div>
-    <div id="animation_container"><div id="timer"></div></div>
+    <div class="col-md-12" id="animation_container"><div id="timer"></div></div>
     <button id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
     <button id="start_over">start</button>
@@ -45,9 +45,9 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function() {
-    var mysession = document.getElementById("session").value = 25;
+    var mysession = document.getElementById("session").value = 3;
     var mybreak = document.getElementById("break").value = 5;
-    var aTimer = new SessionInit(document.getElementById("session").value, document.getElementById("break").value);
+    var aTimer = new SessionInit();
 
     document.getElementById("timer").innerHTML = document.getElementById("session").value;
 
@@ -81,13 +81,13 @@
     // Add the foreground arc in orange, currently showing 12.7%.
     var foreground = svg.append("path")
         .datum({endAngle: tau})
-        .style("fill", "green")
+        .style("fill", "blueviolet")
         .attr("d", arc);
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
     setInterval(function() {
       var delta = document.getElementById("timer").innerHTML/document.getElementById("session").value;
-      console.log('delta: '+ delta);
+//      console.log('delta: '+ delta);
       foreground.transition()
           .duration(750)
           .style("fill", d3.rgb("lightseagreen").brighter(delta-2))

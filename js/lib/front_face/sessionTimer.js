@@ -1,8 +1,4 @@
-function SessionInit(timeLength,breakLength){
-  //todo set to minutes not seconds
-  // 1sec*60 = 1min
-  this.timelength   = timeLength;
-  this.breaklength  = breakLength;
+function SessionInit(){
   this.running      = false;
 
 }
@@ -38,10 +34,10 @@ SessionInit.prototype.stop = function(clockvalue){
 };
 
 SessionInit.prototype.start = function(mysession,mybreak){
-  this.timelength = mysession;
-  this.breaklength = mybreak;
+  this.timelength = mysession * 60;
+  this.breaklength = mybreak * 60;
   this.running = true;
-  this.count(mysession);
+  this.count(this.timelength,this.breaklength);
 };
 
 SessionInit.prototype.mybreak = function(breakvalue) {
@@ -54,39 +50,31 @@ SessionInit.prototype.mybreak = function(breakvalue) {
   var self = this;
 };
 
-SessionInit.prototype.count = function(timevalue) {
+SessionInit.prototype.count = function(sessiontime,breaktime) {
   console.log('inside count');
   var startDate = new Date();
   var running = true;
-  this.timelength = timevalue;
-  this.tictoc = setInterval(function(){self.pulse(self.timelength,startDate,running)},1000);
+  this.sessionlength = sessiontime;
+  this.breaklength = breaktime;
+  this.tictoc = setInterval(function(){self.pulse(self.sessionlength,self.breaklength,startDate,running)},1000);
   var self = this;
 };
 
-SessionInit.prototype.pulse = function(timevalue,sDate,running){
-  var startDate = sDate;
+SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running){
+  console.log('inside pulse');
+//TODO diff into minutes : seconds
+  var diffsecs = sessionvalue - (((Date.now() - startDate)/1000)|0);
+//NOTE: this is a percentage of circle
+  var diffmins = diffsecs / 60;
+  var mins = Math.floor(diffmins);
 
-  var diff = timevalue - (((Date.now() - startDate)/1000)|0);
-  console.log('diff in pulse= '+diff);
-  if (diff < 0) {
-    //call audio here
-    this.ringAlarm();
+  var remainder = diffmins % 1;
+  var temp = remainder * 60;
+  var secs = Math.round(temp);
 
-    var self = this;
+  console.log('pulse totalsecs: ' + diffsecs);
+  console.log('pulse remainder: ' + remainder);
+  console.log('pulse mins: ' + mins);
+  console.log('pulse secs: ' + secs);
 
-    if (running == true) {
-      this.stop(self.tictoc);
-      console.log('self.break ' + self.breaklength);
-      console.log(this.running);
-      this.mybreak(self.breaklength);
-      this.running = false;
-    }else{
-      this.stop(self.tictoc);
-      this.count(self.timelength);
-    }
-  } else {
-    console.log(diff);
-    //TODO this next line breaks SOLID via timer
-    document.getElementById("timer").innerHTML = diff.toLocaleString();
-  }
 };
