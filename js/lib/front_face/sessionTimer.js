@@ -64,7 +64,7 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
   console.log('inside pulse');
 //TODO diff into minutes : seconds
   var diffsecs = sessionvalue - (((Date.now() - startDate)/1000)|0);
-//NOTE: this is a percentage of circle
+  //NOTE: this is a percentage of circle
   var diffmins = diffsecs / 60;
   var mins = Math.floor(diffmins);
 
@@ -77,4 +77,26 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
   console.log('pulse mins: ' + mins);
   console.log('pulse secs: ' + secs);
 
+  if (mins < 0) {
+    //call audio here
+    this.ringAlarm();
+
+    var self = this;
+
+    if (running == true) {
+      this.stop(self.tictoc);
+      console.log('self.break ' + self.breaklength);
+      console.log(this.running);
+      this.mybreak(self.breaklength);
+      this.running = false;
+    }else{
+      this.stop(self.tictoc);
+      this.count(self.timelength);
+    }
+  } else {
+    console.log(mins + ":" + secs);
+    //TODO this next line breaks SOLID via timer
+    var currentTime = mins + ":" + secs;
+    document.getElementById("timer").innerHTML = currentTime.toLocaleString();
+  }
 };

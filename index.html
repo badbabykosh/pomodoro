@@ -57,7 +57,8 @@
 
     $("#start_over").click(function () {
       aTimer.stopAll();
-      aTimer.start(document.getElementById("timer").innerHTML, document.getElementById("break").value);
+      document.getElementById("timer").appendChild(document.createElement("SPAN").setAttribute("id","minutes"));
+      aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
     });
 
     //ANIMATION begins
@@ -86,12 +87,12 @@
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
     setInterval(function() {
-      var delta = document.getElementById("timer").innerHTML/document.getElementById("session").value;
+      var delta = document.getElementById("minutes").innerHTML/document.getElementById("session").value;
 //      console.log('delta: '+ delta);
       foreground.transition()
           .duration(750)
           .style("fill", d3.rgb("lightseagreen").brighter(delta-2))
-          .call(arcTween, (document.getElementById("timer").innerHTML/document.getElementById("session").value) * tau);
+          .call(arcTween, (document.getElementById("minutes").innerHTML/document.getElementById("session").value) * tau);
     }, 500);//250 = quarter of second
 
     //todo use .call to run function colorChange
