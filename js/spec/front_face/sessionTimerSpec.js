@@ -19,12 +19,14 @@ describe("sessionTimer",function() {
     expect(aTimer.count).toBeDefined();
   });
 
-  xit("should stopall",function(){
-
+  it("should stopall",function(){
+    aTimer.stopAll();
+    expect(aTimer.running).toEqual(false);
   });
 
-  xit("should ringAlarm",function(){
-
+  it("should ringAlarm",function(){
+    aTimer.ringAlarm();
+    expect(aTimer.play).toBeTruthy();
   });
 
   it("should stop running", function(){
