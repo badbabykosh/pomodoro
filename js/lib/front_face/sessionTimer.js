@@ -102,6 +102,9 @@ SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running
     this.totalSecs = diffsecs.toLocaleString();
     document.getElementById("minutes").innerHTML = mins.toLocaleString();
     document.getElementById("seconds").innerHTML = currentTime.toLocaleString();
+    var self = this;
+    self.mins;
+    self.currentTime;
   }
 
 };
