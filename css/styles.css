@@ -1,3 +1,6 @@
+body{
+  background-color:#286090;
+}
 .col-centered{
   float: none;
   margin: 0 auto;
@@ -23,4 +26,13 @@ div#timer{
   -o-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
   position:absolute;
+}
+#minutes{
+  font-size: 30px;
+}
+#seconds{
+  font-size: 30px;
+}
+#mode{
+  font-size: 20px;
 }

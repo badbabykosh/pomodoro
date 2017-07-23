@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KOSHODORO</title>
-  <script src="js/lib/d3/d3.min.js" charset="utf-8"></script>
+  <title>POMODORO</title>
+  <script src="js/lib/d3/d3.js" charset="utf-8"></script>
   <script src="js/lib/jquery/jquery-2.1.4.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -23,17 +23,17 @@
     <h1>KoshOdoro</h1>
     <div id="break_length" class="col-md-6 pull-left">Break Length<br/>
       <button class="dec" onclick="decrease('break')">-</button>
-        <input id="break" type="text"/>
+        <input id="break" type="text"/>min
       <button class="inc" onclick="increase('break')">+</button>
     </div>
     <div id="session_length" class="col-md-6 pull-right">Session Length<br/>
       <button class="dec" onclick="decrease('session')">-</button>
-        <input id="session" type="text"/>
+        <input id="session" type="text"/>min
       <button class="inc" onclick="increase('session')">+</button>
     </div>
     <div class="col-md-12" id="animation_container">
-      <div id="timer"><span id="minutes"></span><span id="seconds"></span></div>
-
+      <div id="timer"><span id="mode"></span><br><span id="minutes"></span><span id="seconds"></span></div>
+<!--TODO says BREAK when in break mode-->
     </div>
     <button id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
@@ -48,31 +48,20 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function() {
-    var mysession = document.getElementById("session").value = 1;
-    var mybreak = document.getElementById("break").value = 2;
-//    var tChange = mysession*60;
-//    var fa = document.createElement("SPAN"); fa.setAttribute("id","minutes");
-//    var ping = document.getElementById("timer").appendChild(fa);
+    document.getElementById("session").value = 1;
+    document.getElementById("break").value = 1;
+
 
     var aTimer = new SessionInit();
 
     var minutes = document.getElementById("minutes").innerHTML = document.getElementById("session").value;
 
-    $("#stop_all").click(function () {
-      aTimer.stopAll();
-    });
-
-    $("#start_over").click(function () {
-      aTimer.stopAll();
-
-      aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
-    });
 
     //ANIMATION begins
     var width   = 200,
         height  = 200,
         tau     = 2 * Math.PI; //http://tauday.com/tau-manifesto
-    var arc = d3.svg.arc()
+    var arc = d3.arc()
         .innerRadius(80)
         .outerRadius(100)
         .startAngle(0);
@@ -85,23 +74,34 @@
     var background = svg.append("path")
         .datum({endAngle: tau})
         .style("fill", "white")
-        .attr("d", arc);
-    // Add the foreground arc in orange, currently showing 12.7%.
+        .attr("d", arc)
+        .attr("id", "background");
+    // Add the foreground arc in blueviolet, currently showing 12.7%.
     var foreground = svg.append("path")
         .datum({endAngle: tau})
-        .style("fill", "blueviolet")
-        .attr("d", arc);
+        .style("fill", "white")
+        .attr("d", arc)
+        .attr("id", "foreground");
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
+
+      $("#stop_all").click(function () {
+          aTimer.stopAll();
+      });
+
+      $("#start_over").click(function () {
+          aTimer.stopAll();
+          aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
+      });
+
     setInterval(function() {
       var tChange = aTimer.totalSecs;
-      console.log('change: '+ tChange);
       var delta = document.getElementById("minutes").innerHTML/document.getElementById("session").value;
-      console.log('delta: '+ delta);
-
       foreground.transition()
           .duration(750)
-          .style("fill", d3.rgb("lightseagreen").brighter(delta-2))
+          .call(arcTween, (tChange/(document.getElementById("session").value*60)) * tau);
+      background.transition()
+          .duration(800)
           .call(arcTween, (tChange/(document.getElementById("session").value*60)) * tau);
     }, 500);//250 = quarter of second
 
