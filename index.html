@@ -55,19 +55,13 @@
 <script>
   //TODO js logic here
   // on document ready
-  // onClick -- start session...when it ends start break
-  // onBreak run until end then run session
+
   $(document).ready(function() {
     document.getElementById("session").value = 1;
     document.getElementById("break").value = 1;
-//    document.getElementById("minutes").innerHTML = "1:00";
 
+    var minutes = document.getElementById("minutes").innerHTML = document.getElementById("session").value;
     var aTimer = new SessionInit();
-
-   var minutes = document.getElementById("minutes").innerHTML = document.getElementById("break").value;
-
-//    var minutes = 1;
-
 
     //ANIMATION begins
     var width   = 400,
@@ -103,7 +97,7 @@
 
       $("#start_over").click(function () {
           aTimer.stopAll();
-          aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
+          aTimer.start(document.getElementById("break").value, document.getElementById("session").value);
       });
 
     setInterval(function() {
