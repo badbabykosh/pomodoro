@@ -49,6 +49,8 @@ SessionInit.prototype.mybreak = function(sessiontime,breakvalue) {
   this.tictoc = setInterval(function(){self.pulse(breakvalue,sessiontime,startDate2,running)},1000);
   var self = this;
   d3.select('#foreground').style("fill","red");
+  d3.select('div#timer').style("background-color","#3e2e38");
+  d3.select('div#timer').style("border-color","red");
 };
 
 SessionInit.prototype.count = function(sessiontime,breaktime) {
@@ -59,6 +61,8 @@ SessionInit.prototype.count = function(sessiontime,breaktime) {
   this.tictoc = setInterval(function(){self.pulse(breaktime,sessiontime,startDate,running)},1000);
   var self = this;
   d3.select('#foreground').style("fill","lightgreen");
+  d3.select('div#timer').style("background-color","#30383E");
+  d3.select('div#timer').style("border-color","green");
 };
 
 SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running){
