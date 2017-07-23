@@ -24,8 +24,13 @@ input{
   font-size: 1.2em;
 }
 .session_break{
-  padding-top: 10em;
+  padding-top: 16em;
+  text-align: center;
 }
+.session_break > button{
+  padding: 0px 6px;
+}
+
 div#animation_container{
   position:relative;
 }
@@ -34,8 +39,8 @@ div#timer{
   /*background-color: #30383E;*/
   border: 2px solid;
   display: inline-block;
-  height: 350px;
-  width: 350px;
+  height: 25em;
+  width: 25em;
   border-radius: 50%;
   left: 50%;
   top: 49.5%;
@@ -56,6 +61,11 @@ div#timer{
   font-size: 3em;
 }
 .start_stop{
-  /*font-size: 1.2em;*/
+  font-size: 1.2em;
   margin-top: 1.2em;
+}
+svg{
+  /*TODO three media quieries sm md this*/
+  left: -6%;
+  position:relative;
 }

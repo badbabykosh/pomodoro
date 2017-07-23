@@ -20,34 +20,36 @@
 <body>
 <!--TODO - step 1 press start...25min countdown-->
 <div class="container-fluid">
-  <div class="col-lg-4"></div>
-  <div class="col-lg-4 text-center">
+  <div class="col-sm-4">
+    <h5 class="col-sm-6 session_break pull-right">
+      <div class="btn-text">Break Minutes</div>
+      <button class="btn dec" onclick="decrease('break')">-</button>
+        <input id="break" type="text"/>
+      <button class="btn inc" onclick="increase('break')">+</button>
+    </h5>
+  </div>
+  <div class="col-sm-4 text-center">
     <h1>KoshOdoro</h1>
 
-    <div class="col-lg-12" id="animation_container">
+    <div class="col-sm-12" id="animation_container">
 
-      <h5 class="session_break col-lg-2 pull-left">
-        <div class="btn-text">Work <br>Minutes</div>
-        <button class="dec" onclick="decrease('break')">-</button>
-        <input id="break" type="text"/>
-        <button class="inc" onclick="increase('break')">+</button>
-      </h5>
-
-      <div class="col-lg-8"  id="timer"><span id="mode">Session</span><br><span id="minutes"></span><span id="seconds"></span></div>
-
-      <h5 class="session_break col-lg-2 pull-right">
-        <div class="btn-text">Break <br>Minutes</div>
-        <button class="dec" onclick="decrease('session')">-</button>
-        <input id="session" type="text"/>
-        <button class="inc" onclick="increase('session')">+</button>
-      </h5>
+      <div class="col-sm-12"  id="timer">
+        <span id="mode">Session</span><br><span id="minutes"></span><span id="seconds"></span>
+      </div>
 
     </div>
     <button class="btn btn-default start_stop" id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
     <button class="btn btn-default start_stop"  id="start_over">start</button>
   </div>
-  <div class="col-lg-4"></div>
+  <div class="col-sm-4">
+    <h5 class="col-sm-6 session_break pull-left">
+      <div class="btn-text">Session Minutes</div>
+      <button class="btn dec" onclick="decrease('session')">-</button>
+      <input id="session" type="text"/>
+      <button class="btn inc" onclick="increase('session')">+</button>
+    </h5>
+  </div>
 </div>
 
 <script>
