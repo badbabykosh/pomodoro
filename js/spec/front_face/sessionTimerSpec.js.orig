@@ -35,6 +35,14 @@ describe("sessionTimer",function() {
   });
 
   describe('count',function(){
+<<<<<<< HEAD
+    xit("should receive value of 25",function(){
+      aTimer.count(25,5);
+
+      expect(aTimer.sessiontime).toEqual(25);
+    });
+=======
+>>>>>>> exp
     it("should define tictoc", function(){
       //jasmine.clock().install();
       var dummyElement = document.createElement('span');
@@ -59,6 +67,14 @@ describe("sessionTimer",function() {
   });
 
   describe('mybreak', function(){
+<<<<<<< HEAD
+    xit('should receive value of 5',function(){
+      aTimer.mybreak(5);
+
+      expect(aTimer.breaklength).toEqual(5);
+    });
+=======
+>>>>>>> exp
     it('should define tictoc',function(){
       var dummyElement = document.createElement('span');
       document.getElementById =jasmine.createSpy('HTML Element').and.returnValue(dummyElement);

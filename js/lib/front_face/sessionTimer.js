@@ -30,78 +30,82 @@ SessionInit.prototype.ringAlarm = function(){
 };
 
 SessionInit.prototype.stop = function(clockvalue){
+  console.log('STOP CALLED');
   clearInterval(clockvalue);
 };
 
 SessionInit.prototype.start = function(mysession,mybreak){
   this.timelength = mysession * 60;
   this.breaklength = mybreak * 60;
-  this.running = true;
   this.count(this.timelength,this.breaklength);
+  d3.select('#foreground').style("fill","lightgreen");
 };
 
 SessionInit.prototype.mybreak = function(sessiontime,breakvalue) {
-  console.log('inside mybreak breakvalue: ' +breakvalue);
+  console.log('BREAK: ' +breakvalue);
+  document.getElementById("mode").innerHTML = "BREAK";
   var startDate2 = new Date();
-  //set to false for one cycle
   var running = false;
-
   this.tictoc = setInterval(function(){self.pulse(breakvalue,sessiontime,startDate2,running)},1000);
   var self = this;
+  d3.select('#foreground').style("fill","red");
+  d3.select('div#timer').style("background-color","#3e2e38");
+  d3.select('div#timer').style("border-color","red");
 };
 
 SessionInit.prototype.count = function(sessiontime,breaktime) {
   console.log('inside count');
+  document.getElementById("mode").innerHTML = "WORK";
   var startDate = new Date();
   var running = true;
-
-  this.tictoc = setInterval(function(){self.pulse(sessiontime,breaktime,startDate,running)},1000);
+  this.tictoc = setInterval(function(){self.pulse(breaktime,sessiontime,startDate,running)},1000);
   var self = this;
+  d3.select('#foreground').style("fill","lightgreen");
+  d3.select('div#timer').style("background-color","#30383E");
+  d3.select('div#timer').style("border-color","green");
 };
-
-
 
 SessionInit.prototype.pulse = function(sessionvalue,breakvalue,startDate,running){
   console.log('inside pulse');
-//TODO diff into minutes : seconds
+  console.log('running:'+running);
+  // console.log('sessionvalue: ' + sessionvalue);
+  // console.log('breakvalue: ' + breakvalue);
+  // console.log('running: ' + running);
   var diffsecs = sessionvalue - (((Date.now() - startDate)/1000)|0);
   //NOTE: this is a percentage of circle
   var diffmins = diffsecs / 60;
   var mins = Math.floor(diffmins);
-
   var remainder = diffmins % 1;
   var temp = remainder * 60;
   var secs = Math.round(temp);
 
-  console.log('pulse totalsecs: ' + diffsecs);
-  console.log('pulse remainder: ' + remainder);
-  console.log('pulse mins: ' + mins);
-  console.log('pulse secs: ' + secs);
 
-  if (mins < 0 && secs < 0) {
+  if (mins <= 0 && secs <= 0) {
     //call audio here
     this.ringAlarm();
 
     var self = this;
 
-    if (running == true) {
+    if (running === true) {
       this.stop(self.tictoc);
-      console.log('self.break ' + breakvalue);
-      console.log(this.running);
       this.mybreak(sessionvalue,breakvalue);
       this.running = false;
+      console.log('STOP IF');
     }else{
+      console.log('STOP ELSE');
       this.stop(self.tictoc);
-      this.count(breakvalue,sessionvalue);
+      this.count(sessionvalue,breakvalue);
     }
   } else {
-    console.log(mins + ":" + secs);
     //TODO this next line breaks SOLID via timer
     var currentTime =":" + secs;
     //set global var totalSecs
     this.totalSecs = diffsecs.toLocaleString();
     document.getElementById("minutes").innerHTML = mins.toLocaleString();
     document.getElementById("seconds").innerHTML = currentTime.toLocaleString();
+    var self = this;
+    self.mins;
+    self.currentTime;
   }
 
 };

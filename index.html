@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KOSHODORO</title>
-  <script src="js/lib/d3/d3.min.js" charset="utf-8"></script>
+  <title>POMODORO</title>
+  <script src="js/lib/d3/d3.js" charset="utf-8"></script>
   <script src="js/lib/jquery/jquery-2.1.4.js"></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide|Roboto+Mono:400|Source+Code+Pro:900">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <!-- Optional theme -->
@@ -18,28 +20,36 @@
 <body>
 <!--TODO - step 1 press start...25min countdown-->
 <div class="container-fluid">
-  <div class="col-md-4"></div>
-  <div class="col-md-4 text-center">
-    <h1>KoshOdoro</h1>
-    <div id="break_length" class="col-md-6 pull-left">Break Length<br/>
-      <button class="dec" onclick="decrease('break')">-</button>
+  <div class="col-sm-4">
+    <h5 class="col-sm-6 session_break pull-right">
+      <div class="btn-text">Break Minutes</div>
+      <button class="btn dec" onclick="decrease('break')">-</button>
         <input id="break" type="text"/>
-      <button class="inc" onclick="increase('break')">+</button>
-    </div>
-    <div id="session_length" class="col-md-6 pull-right">Session Length<br/>
-      <button class="dec" onclick="decrease('session')">-</button>
-        <input id="session" type="text"/>
-      <button class="inc" onclick="increase('session')">+</button>
-    </div>
-    <div class="col-md-12" id="animation_container">
-      <div id="timer"><span id="minutes"></span><span id="seconds"></span></div>
+      <button class="btn inc" onclick="increase('break')">+</button>
+    </h5>
+  </div>
+  <div class="col-sm-4 text-center">
+    <h1>KoshOdoro</h1>
+
+    <div class="col-sm-12" id="animation_container">
+
+      <div class="col-sm-12"  id="timer">
+        <span id="mode">Session</span><br><span id="minutes"></span><span id="seconds"></span>
+      </div>
 
     </div>
-    <button id="stop_all">stop</button>
+    <button class="btn btn-default start_stop" id="stop_all">stop</button>
     <!--todo onclick change text 'start' == 'reset'-->
-    <button id="start_over">start</button>
+    <button class="btn btn-default start_stop"  id="start_over">start</button>
   </div>
-  <div class="col-md-4"></div>
+  <div class="col-sm-4">
+    <h5 class="col-sm-6 session_break pull-left">
+      <div class="btn-text">Session Minutes</div>
+      <button class="btn dec" onclick="decrease('session')">-</button>
+      <input id="session" type="text"/>
+      <button class="btn inc" onclick="increase('session')">+</button>
+    </h5>
+  </div>
 </div>
 
 <script>
@@ -48,33 +58,24 @@
   // onClick -- start session...when it ends start break
   // onBreak run until end then run session
   $(document).ready(function() {
-    var mysession = document.getElementById("session").value = 1;
-    var mybreak = document.getElementById("break").value = 2;
-//    var tChange = mysession*60;
-//    var fa = document.createElement("SPAN"); fa.setAttribute("id","minutes");
-//    var ping = document.getElementById("timer").appendChild(fa);
+    document.getElementById("session").value = 1;
+    document.getElementById("break").value = 1;
+//    document.getElementById("minutes").innerHTML = "1:00";
 
     var aTimer = new SessionInit();
 
-    var minutes = document.getElementById("minutes").innerHTML = document.getElementById("session").value;
+   var minutes = document.getElementById("minutes").innerHTML = document.getElementById("break").value;
 
-    $("#stop_all").click(function () {
-      aTimer.stopAll();
-    });
+//    var minutes = 1;
 
-    $("#start_over").click(function () {
-      aTimer.stopAll();
-
-      aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
-    });
 
     //ANIMATION begins
-    var width   = 200,
-        height  = 200,
+    var width   = 400,
+        height  = 400,
         tau     = 2 * Math.PI; //http://tauday.com/tau-manifesto
-    var arc = d3.svg.arc()
-        .innerRadius(80)
-        .outerRadius(100)
+    var arc = d3.arc()
+        .innerRadius(180)
+        .outerRadius(200)
         .startAngle(0);
     var svg = d3.select('#animation_container').append('svg')
         .attr('width',width)
@@ -84,24 +85,35 @@
     // Add the background arc, from 0 to 100% (tau).
     var background = svg.append("path")
         .datum({endAngle: tau})
-        .style("fill", "white")
-        .attr("d", arc);
-    // Add the foreground arc in orange, currently showing 12.7%.
+        .style("fill", "none")
+        .attr("d", arc)
+        .attr("id", "background");
+    // Add the foreground arc in blueviolet, currently showing 12.7%.
     var foreground = svg.append("path")
         .datum({endAngle: tau})
-        .style("fill", "blueviolet")
-        .attr("d", arc);
+        .style("fill", "none")
+        .attr("d", arc)
+        .attr("id", "foreground");
     // Every so often, start a transition to a new angle. Use transition.call
     // so that the logic for tweening the arc can be encapsulated in a separate function below.
+
+      $("#stop_all").click(function () {
+          aTimer.stopAll();
+      });
+
+      $("#start_over").click(function () {
+          aTimer.stopAll();
+          aTimer.start(document.getElementById("minutes").innerHTML, document.getElementById("break").value);
+      });
+
     setInterval(function() {
       var tChange = aTimer.totalSecs;
-      console.log('change: '+ tChange);
       var delta = document.getElementById("minutes").innerHTML/document.getElementById("session").value;
-      console.log('delta: '+ delta);
-
       foreground.transition()
           .duration(750)
-          .style("fill", d3.rgb("lightseagreen").brighter(delta-2))
+          .call(arcTween, (tChange/(document.getElementById("session").value*60)) * tau);
+      background.transition()
+          .duration(800)
           .call(arcTween, (tChange/(document.getElementById("session").value*60)) * tau);
     }, 500);//250 = quarter of second
 
