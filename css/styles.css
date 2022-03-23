@@ -66,6 +66,6 @@ div#timer{
 }
 svg{
   /*TODO three media quieries sm md this*/
-  left: -6%;
+  /*left: -6%;*/
   position:relative;
 }
